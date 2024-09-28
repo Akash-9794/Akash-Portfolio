@@ -272,14 +272,51 @@ function matter(){
     socialIcons.classList.remove('hidden')
     enableScroll()
   })
-  latestWorkBtn.addEventListener('click', () => {
-    aboutSection.classList.add('active')
-    overlay.classList.add('active')
-    navbar.classList.add('hidden')
-    navbar.classList.add('hidden')
-    socialIcons.classList.add('hidden')
-  })
+  // latestWorks.addEventListener('click', (e) => {
+  //   scrollTo(0, mainSection.clientHeight)
+  // })
+  const latestWorks = document.getElementById('latestwork'); // Your clickable element
+const scrollAmount = window.innerHeight * 0.5; // 10% of the viewport height
+
+latestWorks.addEventListener('click', (e) => {
+    window.scrollBy({
+        top: scrollAmount,
+        behavior: 'smooth' // Smooth scrolling effect
+    });
+});
   
   
-  
-  
+function slider(){
+  const slides = document.querySelectorAll('.slide');
+let count = 0;
+
+// Update slideImage function to shift the images correctly
+const slideImage = () => {
+    slides.forEach((slide, index) => {
+        slide.style.transform = `translateX(-${count * 110}%)`;
+    });
+};
+
+// Navigation buttons
+const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next');
+
+prevBtn.addEventListener('click', () => {
+    if (count > 0) {
+        count--;
+        slideImage();
+    }
+});
+
+nextBtn.addEventListener('click', () => {
+    if (count < slides.length - 1) {
+        count++;
+        slideImage();
+    }
+});
+
+// Initialize position of slides
+slideImage();
+}
+
+slider();
