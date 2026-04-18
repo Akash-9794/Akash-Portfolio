@@ -1,230 +1,892 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akash Chaurasiya — Python & ML Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="./images/logo.png" type="image/gif" sizes="16x16" />
+  :root {
+    --bg:      #0a0a0f;
+    --bg2:     #111118;
+    --bg3:     #16161f;
+    --accent:  #7c6af7;
+    --accent2: #a594f9;
+    --accent3: #c4b8ff;
+    --green:   #4ade80;
+    --amber:   #fbbf24;
+    --coral:   #fb7185;
+    --text:    #f0eeff;
+    --text2:   #a09cbf;
+    --text3:   #5a5678;
+    --border:  rgba(124,106,247,0.15);
+    --border2: rgba(124,106,247,0.30);
+  }
 
-    <!-- Fontawesome -->
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
-    
+  html { scroll-behavior: smooth; }
 
-    <title>Akash Chaurasiya</title>
-  </head>
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
 
-  <body id="body-container">
-    <section class="main-section">
-      <div class="hero-section">
-        <nav class="navbar">
-          <div class="logo">
-            <a href="/">
-              <img src="./images/name-logo-white.png" alt="logo" />
-            </a>
-          </div>
-        </nav>
-        <div class="hero-section-text">
-          <div class="hero-content">
-            <h1>Akash Chaurasiya</h1>
-            <p>Front-End Web Developer</p>
-            <div class="about-me-btn">
-              <span class="about-me-text">About Me</span>
-              <div class="right-arrow">
-                <img src="images\icons8-arrow-48.png" alt="right-arrow"  />
-              </div>
-            </div>
-          </div>
-          <div class="name-logo" id="name-logo">
-            <img src="images\logo.png" alt="" />
-          </div>
+  ::selection { background: var(--accent); color: #fff; }
+
+  /* ── NOISE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: .45;
+  }
+
+  /* ── AURORA BLOBS ── */
+  .aurora-purple {
+    position: fixed; top: -20vh; left: -15vw;
+    width: 70vw; height: 70vh;
+    background: radial-gradient(ellipse, rgba(124,106,247,0.13) 0%, transparent 70%);
+    animation: auroraA 14s ease-in-out infinite alternate;
+    pointer-events: none; z-index: 0;
+  }
+  .aurora-green {
+    position: fixed; bottom: -20vh; right: -10vw;
+    width: 55vw; height: 55vh;
+    background: radial-gradient(ellipse, rgba(74,222,128,0.07) 0%, transparent 70%);
+    animation: auroraB 18s ease-in-out infinite alternate;
+    pointer-events: none; z-index: 0;
+  }
+  @keyframes auroraA {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(8vw,6vh) scale(1.12); }
+  }
+  @keyframes auroraB {
+    from { transform: translate(0,0); }
+    to   { transform: translate(-6vw,-5vh); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 5vw;
+    background: rgba(10,10,15,0.75);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    animation: fadeDown .7s ease both;
+  }
+  @keyframes fadeDown {
+    from { opacity:0; transform:translateY(-18px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.05rem;
+    color: var(--accent2); letter-spacing: -.02em;
+  }
+  .nav-logo span { color: var(--text3); font-weight: 400; }
+  .nav-links { list-style: none; display: flex; gap: 2rem; }
+  .nav-links a {
+    color: var(--text2); text-decoration: none;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent3); }
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text2); border-radius: 2px; transition: .3s;
+  }
+
+  /* ── WRAPPER ── */
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 5vw; position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 100px; padding-bottom: 4rem;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .68rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 2rem;
+    animation: fadeUp .8s .2s ease both;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 2rem; height: 1px; background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: .93; letter-spacing: -.03em;
+    animation: fadeUp .8s .3s ease both;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-weight: 400;
+    color: var(--accent2);
+  }
+
+  .hero-sub {
+    font-size: clamp(.85rem, 1.6vw, 1.05rem);
+    color: var(--text2); max-width: 520px;
+    line-height: 1.85; margin: 1.5rem 0 2.5rem;
+    animation: fadeUp .8s .4s ease both;
+  }
+
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: .6rem;
+    margin-bottom: 3rem;
+    animation: fadeUp .8s .5s ease both;
+  }
+  .badge {
+    padding: .32rem .8rem; border-radius: 20px;
+    font-size: .68rem; letter-spacing: .07em;
+    border: 1px solid var(--border2);
+    color: var(--accent3); background: rgba(124,106,247,0.06);
+    transition: all .2s;
+  }
+  .badge.green { border-color: rgba(74,222,128,0.3);  color: var(--green);  background: rgba(74,222,128,0.05); }
+  .badge.amber { border-color: rgba(251,191,36,0.3);  color: var(--amber);  background: rgba(251,191,36,0.05); }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp .8s .6s ease both;
+  }
+  .btn-primary {
+    padding: .8rem 2rem; border-radius: 6px;
+    background: var(--accent); color: #fff;
+    text-decoration: none; font-size: .8rem;
+    letter-spacing: .05em; font-weight: 500;
+    transition: all .2s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-outline {
+    padding: .8rem 2rem; border-radius: 6px;
+    border: 1px solid var(--border2); color: var(--text2);
+    text-decoration: none; font-size: .8rem;
+    letter-spacing: .05em; transition: all .2s;
+  }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent3); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    margin-top: 5rem;
+    animation: fadeUp .8s .7s ease both;
+  }
+  .stat { padding: 1.4rem; background: var(--bg2); text-align: center; transition: background .2s; }
+  .stat:hover { background: var(--bg3); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.9rem; font-weight: 800;
+    color: var(--accent2); display: block;
+  }
+  .stat-label {
+    font-size: .63rem; color: var(--text3);
+    letter-spacing: .1em; text-transform: uppercase; margin-top: .3rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(28px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 6rem 0; }
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3.5rem;
+  }
+  .section-num { font-size: .68rem; color: var(--accent); letter-spacing: .1em; }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    font-weight: 700; letter-spacing: -.02em;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .skill-card { background: var(--bg2); padding: 1.8rem; transition: background .2s; }
+  .skill-card:hover { background: var(--bg3); }
+  .skill-cat {
+    font-size: .63rem; color: var(--accent);
+    letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .skill-tag {
+    padding: .28rem .65rem; border-radius: 4px;
+    font-size: .68rem;
+    border: 1px solid var(--border); color: var(--text2);
+    background: rgba(255,255,255,0.03);
+    transition: all .2s;
+  }
+  .skill-tag:hover { border-color: var(--border2); color: var(--accent3); }
+  .skill-tag.ml   { border-color: rgba(124,106,247,0.3); color: var(--accent2); background: rgba(124,106,247,0.05); }
+  .skill-tag.fe   { border-color: rgba(251,191,36,0.3);  color: var(--amber);   background: rgba(251,191,36,0.05); }
+  .skill-tag.dev  { border-color: rgba(251,113,133,0.3); color: var(--coral);   background: rgba(251,113,133,0.05); }
+  .skill-tag.cs   { border-color: rgba(74,222,128,0.3);  color: var(--green);   background: rgba(74,222,128,0.05); }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+  .project-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem;
+    position: relative; overflow: hidden;
+    transition: all .3s;
+  }
+  .project-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left; transition: transform .3s;
+  }
+  .project-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .project-type {
+    font-size: .63rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--border2);
+    padding: .22rem .55rem; border-radius: 4px;
+  }
+  .project-type.live { color: var(--green); border-color: rgba(74,222,128,0.3); }
+  .project-date { font-size: .68rem; color: var(--text3); }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.25rem; font-weight: 700; margin-bottom: .7rem;
+  }
+  .project-desc { font-size: .8rem; color: var(--text2); line-height: 1.75; margin-bottom: 1rem; }
+  .project-bullets { list-style: none; margin-bottom: 1rem; }
+  .project-bullets li {
+    display: flex; gap: .6rem; font-size: .78rem;
+    color: var(--text2); margin-bottom: .35rem;
+  }
+  .project-bullets li::before { content: '▹'; color: var(--accent); flex-shrink: 0; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .stack-tag {
+    padding: .2rem .55rem; border-radius: 3px; font-size: .63rem;
+    background: rgba(124,106,247,0.08);
+    border: 1px solid rgba(124,106,247,0.2); color: var(--accent3);
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: .4rem;
+    font-size: .7rem; color: var(--text2); text-decoration: none;
+    border: 1px solid var(--border); padding: .32rem .75rem;
+    border-radius: 4px; margin-top: 1rem; transition: all .2s;
+    letter-spacing: .04em;
+  }
+  .project-link:hover { border-color: var(--accent); color: var(--accent3); }
+  .project-link svg { width: 12px; height: 12px; }
+
+  /* ── EXPERIENCE ── */
+  .exp-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .exp-item {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem 2.2rem;
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 1.8rem; align-items: start;
+    transition: all .2s;
+  }
+  .exp-item:hover { border-color: var(--border2); background: var(--bg3); }
+  .exp-dot {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(124,106,247,0.08); border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent2); font-size: .8rem; font-weight: 600;
+    flex-shrink: 0; margin-top: .3rem;
+    font-family: 'Syne', sans-serif;
+  }
+  .exp-period { font-size: .68rem; color: var(--text3); margin-bottom: .4rem; }
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700; margin-bottom: .25rem;
+  }
+  .exp-company { font-size: .82rem; color: var(--accent2); margin-bottom: .75rem; }
+  .exp-desc { font-size: .79rem; color: var(--text2); line-height: 1.75; }
+  .exp-bullets { list-style: none; margin-top: .75rem; }
+  .exp-bullets li {
+    display: flex; gap: .6rem; font-size: .78rem;
+    color: var(--text2); margin-bottom: .3rem;
+  }
+  .exp-bullets li::before { content: '▹'; color: var(--accent); flex-shrink: 0; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.4rem; }
+  .edu-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.8rem; transition: all .2s;
+  }
+  .edu-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+  .edu-card.highlight { border-color: rgba(74,222,128,0.35); background: rgba(74,222,128,0.04); }
+  .edu-icon { font-size: 1.6rem; margin-bottom: .9rem; }
+  .edu-degree {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; margin-bottom: .3rem;
+  }
+  .edu-school { font-size: .79rem; color: var(--accent2); margin-bottom: .3rem; }
+  .edu-period { font-size: .68rem; color: var(--text3); }
+  .edu-score { font-size: .85rem; color: var(--green); margin-top: .75rem; font-weight: 500; }
+  .edu-bullets { list-style: none; margin-top: .75rem; }
+  .edu-bullets li {
+    display: flex; gap: .5rem; font-size: .75rem; color: var(--text2); margin-bottom: .25rem;
+  }
+  .edu-bullets li::before { content: '▹'; color: var(--green); flex-shrink: 0; }
+
+  /* ── CERTIFICATIONS ── */
+  .cert-list { display: flex; flex-direction: column; gap: .85rem; }
+  .cert-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; transition: all .2s;
+    font-size: .82rem; color: var(--text2);
+  }
+  .cert-item:hover { border-color: var(--border2); color: var(--text); }
+  .cert-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 6px; background: rgba(124,106,247,0.1);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; color: var(--accent2);
+  }
+
+  /* ── CONTACT ── */
+  .contact-wrapper {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 3rem;
+  }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .contact-heading {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700; letter-spacing: -.02em; margin-bottom: .75rem;
+  }
+  .contact-sub { font-size: .82rem; color: var(--text2); line-height: 1.8; }
+  .contact-links { display: flex; flex-direction: column; gap: .75rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: .9rem 1.2rem;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 10px; text-decoration: none;
+    color: var(--text2); font-size: .8rem;
+    transition: all .2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent3); transform: translateX(4px); }
+  .contact-link svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
+  .contact-link span { letter-spacing: .02em; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 5vw;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .68rem; color: var(--text3);
+    position: relative; z-index: 1;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+  footer a:hover { color: var(--accent3); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; gap: 1.2rem; }
+    .nav-links.open {
+      display: flex; position: fixed;
+      top: 60px; left: 0; right: 0;
+      background: rgba(10,10,15,0.97);
+      backdrop-filter: blur(20px);
+      padding: 2rem 5vw;
+      border-bottom: 1px solid var(--border);
+    }
+    .hamburger { display: flex; }
+    .hero h1 { font-size: clamp(2.8rem, 12vw, 4.5rem); }
+    .hero-stats { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-item { grid-template-columns: 1fr; gap: .5rem; }
+    .exp-dot { display: none; }
+    footer { justify-content: center; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora-purple"></div>
+<div class="aurora-green"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Akash<span>.dev</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Available for opportunities</div>
+    <h1>Akash<br><em>Chaurasiya</em></h1>
+    <p class="hero-sub">Python & ML · Software Developer · GATE 2026 Qualified<br>
+    Aspiring AI/ML engineer actively learning, building projects, and seeking opportunities to grow and apply skills.</p>
+
+    <div class="hero-badges">
+      <span class="badge">Python & ML</span>
+      <span class="badge green">GATE 2026 Qualified</span>
+      <span class="badge amber">8.4 CGPA</span>
+      <span class="badge">Streamlit</span>
+      <span class="badge">Kaggle</span>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="https://drive.google.com/file/d/1ERCDhfPjKhZ8ZjU_laYIsYoI3x29P3cp/view?usp=drive_link" class="btn-outline"
+      target="_blank" 
+      rel="noopener noreferrer">View Resume</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">4+</span>
+        <span class="stat-label">Projects Built</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">378</span>
+        <span class="stat-label">GATE 2026 Score</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">8.4</span>
+        <span class="stat-label">CGPA (B.Tech)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">01 /</span>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="skills-grid reveal">
+      <div class="skill-card">
+        <div class="skill-cat">Python & Machine Learning</div>
+        <div class="skill-tags">
+          <span class="skill-tag ml">Python 3.11+</span>
+          <span class="skill-tag ml">Scikit-learn</span>
+          <span class="skill-tag ml">Pandas</span>
+          <span class="skill-tag ml">NumPy</span>
+          <span class="skill-tag ml">Joblib</span>
+          <span class="skill-tag ml">Streamlit</span>
+          <span class="skill-tag ml">Fast-API</span>
+          <span class="skill-tag ml">SQL</span>
+          <span class="skill-tag ml">TF-IDF</span>
+          <span class="skill-tag ml">Logistic Regression</span>
         </div>
-        <div class="about-section">
-          <div class="x-icon">
-            <img src="./images/icons8-x-96.png" alt="x icon"  />
-          </div>
-          <div class="about-me">
-            <div class="about-me-text">
-              <h2 class="about-me-title">ABOUT ME</h2>
-              <p class="about-me-detail">
-                I am a Front-End web developers to design &
-                develop creative websites that fits their vision and attracts
-                the visitors to stay for ever.Technologies and tools that I use to create such awesome websites.
-              </p>
+      </div>
 
-              <ul class="about-me-detail">
-                <li>#C++(DSA)</li>
-                <li>#javascript</li>
-                <li>#react.js</li>
-                <li>#html</li>
-                <li>#css</li>
-                <li>#tailwind</li>
-                <li>#github</li>
-                <li>#terminal</li>
-                <li>#figma</li>
-              </ul>
-
-              <div class="top-skills">
-                <h2 class="mern">Front-End web design</h2>
-                <div class="top-skills-icons">
-                  <div class="react-icon">
-                    <div class="tooltip">React.JS</div>
-
-                    <svg width="50" height="50" viewBox="175.7 78 490.6 436.9" xmlns="http://www.w3.org/2000/svg">
-                      <g fill="#61dafb">
-                        <path
-                          d="m666.3 296.5c0-32.5-40.7-63.3-103.1-82.4 14.4-63.6 8-114.2-20.2-130.4-6.5-3.8-14.1-5.6-22.4-5.6v22.3c4.6 0 8.3.9 11.4 2.6 13.6 7.8 19.5 37.5 14.9 75.7-1.1 9.4-2.9 19.3-5.1 29.4-19.6-4.8-41-8.5-63.5-10.9-13.5-18.5-27.5-35.3-41.6-50 32.6-30.3 63.2-46.9 84-46.9v-22.3c-27.5 0-63.5 19.6-99.9 53.6-36.4-33.8-72.4-53.2-99.9-53.2v22.3c20.7 0 51.4 16.5 84 46.6-14 14.7-28 31.4-41.3 49.9-22.6 2.4-44 6.1-63.6 11-2.3-10-4-19.7-5.2-29-4.7-38.2 1.1-67.9 14.6-75.8 3-1.8 6.9-2.6 11.5-2.6v-22.3c-8.4 0-16 1.8-22.6 5.6-28.1 16.2-34.4 66.7-19.9 130.1-62.2 19.2-102.7 49.9-102.7 82.3 0 32.5 40.7 63.3 103.1 82.4-14.4 63.6-8 114.2 20.2 130.4 6.5 3.8 14.1 5.6 22.5 5.6 27.5 0 63.5-19.6 99.9-53.6 36.4 33.8 72.4 53.2 99.9 53.2 8.4 0 16-1.8 22.6-5.6 28.1-16.2 34.4-66.7 19.9-130.1 62-19.1 102.5-49.9 102.5-82.3zm-130.2-66.7c-3.7 12.9-8.3 26.2-13.5 39.5-4.1-8-8.4-16-13.1-24-4.6-8-9.5-15.8-14.4-23.4 14.2 2.1 27.9 4.7 41 7.9zm-45.8 106.5c-7.8 13.5-15.8 26.3-24.1 38.2-14.9 1.3-30 2-45.2 2-15.1 0-30.2-.7-45-1.9-8.3-11.9-16.4-24.6-24.2-38-7.6-13.1-14.5-26.4-20.8-39.8 6.2-13.4 13.2-26.8 20.7-39.9 7.8-13.5 15.8-26.3 24.1-38.2 14.9-1.3 30-2 45.2-2 15.1 0 30.2.7 45 1.9 8.3 11.9 16.4 24.6 24.2 38 7.6 13.1 14.5 26.4 20.8 39.8-6.3 13.4-13.2 26.8-20.7 39.9zm32.3-13c5.4 13.4 10 26.8 13.8 39.8-13.1 3.2-26.9 5.9-41.2 8 4.9-7.7 9.8-15.6 14.4-23.7 4.6-8 8.9-16.1 13-24.1zm-101.4 106.7c-9.3-9.6-18.6-20.3-27.8-32 9 .4 18.2.7 27.5.7 9.4 0 18.7-.2 27.8-.7-9 11.7-18.3 22.4-27.5 32zm-74.4-58.9c-14.2-2.1-27.9-4.7-41-7.9 3.7-12.9 8.3-26.2 13.5-39.5 4.1 8 8.4 16 13.1 24s9.5 15.8 14.4 23.4zm73.9-208.1c9.3 9.6 18.6 20.3 27.8 32-9-.4-18.2-.7-27.5-.7-9.4 0-18.7.2-27.8.7 9-11.7 18.3-22.4 27.5-32zm-74 58.9c-4.9 7.7-9.8 15.6-14.4 23.7-4.6 8-8.9 16-13 24-5.4-13.4-10-26.8-13.8-39.8 13.1-3.1 26.9-5.8 41.2-7.9zm-90.5 125.2c-35.4-15.1-58.3-34.9-58.3-50.6s22.9-35.6 58.3-50.6c8.6-3.7 18-7 27.7-10.1 5.7 19.6 13.2 40 22.5 60.9-9.2 20.8-16.6 41.1-22.2 60.6-9.9-3.1-19.3-6.5-28-10.2zm53.8 142.9c-13.6-7.8-19.5-37.5-14.9-75.7 1.1-9.4 2.9-19.3 5.1-29.4 19.6 4.8 41 8.5 63.5 10.9 13.5 18.5 27.5 35.3 41.6 50-32.6 30.3-63.2 46.9-84 46.9-4.5-.1-8.3-1-11.3-2.7zm237.2-76.2c4.7 38.2-1.1 67.9-14.6 75.8-3 1.8-6.9 2.6-11.5 2.6-20.7 0-51.4-16.5-84-46.6 14-14.7 28-31.4 41.3-49.9 22.6-2.4 44-6.1 63.6-11 2.3 10.1 4.1 19.8 5.2 29.1zm38.5-66.7c-8.6 3.7-18 7-27.7 10.1-5.7-19.6-13.2-40-22.5-60.9 9.2-20.8 16.6-41.1 22.2-60.6 9.9 3.1 19.3 6.5 28.1 10.2 35.4 15.1 58.3 34.9 58.3 50.6-.1 15.7-23 35.6-58.4 50.6z">
-                        </path>
-                        <circle cx="420.9" cy="296.5" r="45.7"></circle>
-                      </g>
-                    </svg>
-                    <h2 style="color: #61dafb">R</h2>
-                  </div>
-                  <div class="node-icon">
-                    <div class="tooltip">T-CSS</div>
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 64 64">
-                      <linearGradient id="Bt4mJVgxukoIn-lB813KHa_FnnFuAIw4e8j_gr1" x1="101.406" x2="120.596" y1="579.621" y2="579.621" gradientTransform="rotate(90 337.457 266.669)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6dc7ff"></stop><stop offset="1" stop-color="#eaabff"></stop></linearGradient><path fill="url(#Bt4mJVgxukoIn-lB813KHa_FnnFuAIw4e8j_gr1)" d="M20.355,41.457c-0.832-0.844-1.855-1.924-2.944-2.819	c-1.125-0.925-2.515-1.823-4.244-2.256c-0.331-0.081-0.66-0.151-0.987-0.205l-0.897-0.112l0.223-0.104	c1.501-0.615,3.311-0.953,5.495-0.953c6.172,0,8.831,2.691,11.643,5.547c0.852,0.863,1.88,1.936,2.993,2.836	c1.14,0.921,2.54,1.811,4.259,2.24c0.329,0.083,0.657,0.152,0.984,0.207l0.847,0.107l-0.233,0.108	c-1.5,0.613-3.311,0.951-5.492,0.951C25.829,47.002,23.169,44.313,20.355,41.457z"></path><linearGradient id="Bt4mJVgxukoIn-lB813KHb_FnnFuAIw4e8j_gr2" x1="96.905" x2="116.096" y1="575.872" y2="575.872" gradientTransform="rotate(90 349.832 265.543)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6dc7ff"></stop><stop offset="1" stop-color="#eaabff"></stop></linearGradient><path fill="url(#Bt4mJVgxukoIn-lB813KHb_FnnFuAIw4e8j_gr2)" d="M35.354,23.455c-0.832-0.844-1.855-1.924-2.944-2.819	c-1.125-0.925-2.515-1.823-4.244-2.256c-0.331-0.081-0.66-0.151-0.987-0.205l-0.897-0.112l0.223-0.104	c1.501-0.615,3.311-0.953,5.495-0.953c6.172,0,8.831,2.691,11.643,5.547c0.852,0.863,1.88,1.936,2.993,2.836	c1.14,0.921,2.54,1.811,4.259,2.24c0.329,0.083,0.657,0.152,0.984,0.207l0.847,0.107l-0.233,0.108	c-1.5,0.613-3.311,0.951-5.492,0.951C40.827,29.001,38.167,26.311,35.354,23.455z"></path><linearGradient id="Bt4mJVgxukoIn-lB813KHc_FnnFuAIw4e8j_gr3" x1="97.289" x2="133.928" y1="585.251" y2="585.251" gradientTransform="rotate(90 346.445 263.307)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1a6dff"></stop><stop offset="1" stop-color="#c822ff"></stop></linearGradient><path fill="url(#Bt4mJVgxukoIn-lB813KHc_FnnFuAIw4e8j_gr3)" d="M17.509,44.261c-1.892-1.915-3.367-3.515-5.313-4.003 c-3.483-0.871-6.54,0.54-9.395,4.344c-0.651,0.867-2.032,0.208-1.769-0.843c2.108-8.431,7.496-12.756,15.969-12.756 c7.857,0,11.511,3.712,14.492,6.739c1.879,1.905,3.421,3.516,5.372,4.004c3.481,0.869,6.479-0.535,9.336-4.344 c0.651-0.867,2.032-0.208,1.769,0.843c-2.108,8.431-7.496,12.753-15.969,12.753C24.143,50.998,20.489,47.287,17.509,44.261z M44.462,42.015l-0.472,0.34c-2.267,1.515-4.792,2.036-7.609,1.331c-2.615-0.653-4.579-2.781-6.313-4.54 c-2.897-2.943-6.053-6.143-13.067-6.143c-5.64,0-9.647,2.067-12.096,6.292l-0.376,0.712l0.503-0.359 c2.287-1.515,4.835-2.035,7.651-1.331c2.616,0.656,4.528,2.795,6.249,4.539c2.899,2.943,6.056,6.141,13.069,6.141 c5.639,0,9.647-2.064,12.096-6.288L44.462,42.015z"></path><linearGradient id="Bt4mJVgxukoIn-lB813KHd_FnnFuAIw4e8j_gr4" x1="97.289" x2="133.928" y1="570.253" y2="570.253" gradientTransform="rotate(90 346.445 263.307)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1a6dff"></stop><stop offset="1" stop-color="#c822ff"></stop></linearGradient><path fill="url(#Bt4mJVgxukoIn-lB813KHd_FnnFuAIw4e8j_gr4)" d="M32.507,26.259c-1.892-1.915-3.367-3.515-5.313-4.003 c-3.483-0.871-6.54,0.54-9.395,4.344c-0.651,0.867-2.032,0.208-1.769-0.843c2.108-8.431,7.496-12.756,15.969-12.756 c7.857,0,11.511,3.712,14.492,6.739c1.879,1.905,3.421,3.516,5.372,4.004c3.481,0.869,6.479-0.535,9.336-4.344 c0.651-0.867,2.032-0.208,1.769,0.843c-2.108,8.431-7.496,12.753-15.969,12.753C39.142,32.997,35.487,29.286,32.507,26.259z M59.461,24.014l-0.472,0.34c-2.267,1.515-4.792,2.036-7.609,1.331c-2.615-0.653-4.579-2.781-6.313-4.54 c-2.897-2.943-6.053-6.143-13.067-6.143c-5.64,0-9.647,2.067-12.096,6.292l-0.376,0.712l0.503-0.359 c2.287-1.515,4.835-2.035,7.651-1.331c2.616,0.656,4.528,2.795,6.249,4.539c2.899,2.943,6.056,6.141,13.069,6.141 c5.639,0,9.647-2.064,12.096-6.288L59.461,24.014z"></path>
-                      </svg>
-                    <h2 style="color: #8cc84b">T</h2>
-                  </div>
-                  <div class="node-icon">
-                    <div class="tooltip">JS</div>
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 48 48">
-                      <path fill="#f7df1e" d="M6,42V6h36v36H6z"></path><path fill="#000001" d="M29.538,32.947c0.692,1.124,1.444,2.201,3.037,2.201c1.338,0,2.04-0.665,2.04-1.585 c0-1.101-0.726-1.492-2.198-2.133l-0.807-0.344c-2.329-0.988-3.878-2.226-3.878-4.841c0-2.41,1.845-4.244,4.728-4.244 c2.053,0,3.528,0.711,4.592,2.573l-2.514,1.607c-0.553-0.988-1.151-1.377-2.078-1.377c-0.946,0-1.545,0.597-1.545,1.377 c0,0.964,0.6,1.354,1.985,1.951l0.807,0.344C36.452,29.645,38,30.839,38,33.523C38,36.415,35.716,38,32.65,38 c-2.999,0-4.702-1.505-5.65-3.368L29.538,32.947z M17.952,33.029c0.506,0.906,1.275,1.603,2.381,1.603 c1.058,0,1.667-0.418,1.667-2.043V22h3.333v11.101c0,3.367-1.953,4.899-4.805,4.899c-2.577,0-4.437-1.746-5.195-3.368 L17.952,33.029z"></path>
-                      </svg>
-                    <h2 style="color: #ffee02">JS</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="illustration">
-            <div class="coder-img-container">
-              <img class="coder-img" src="./images/lounge-man-working-on-web-design.gif" alt="coder image" draggable="false" />
-            </div>
-          </div>
+      <div class="skill-card">
+        <div class="skill-cat">Frontend Development</div>
+        <div class="skill-tags">
+          <span class="skill-tag fe">ReactJS</span>
+          <span class="skill-tag fe">Redux Toolkit</span>
+          <span class="skill-tag fe">React Router</span>
+          <span class="skill-tag fe">JavaScript ES6+</span>
+          <span class="skill-tag fe">HTML5</span>
+          <span class="skill-tag fe">CSS3</span>
+          <span class="skill-tag fe">Tailwind CSS</span>
         </div>
-        <ul class="social-links">
-          <li class="linkedin-icon">
-            <a href="https://www.linkedin.com/in/akash-chaurasiya-621969259/" target="_blank"><i
-                class="fab fa-linkedin-in"></i></a>
-          </li>
-          <li class="twitter-icon">
-            <a href="" target="_blank"><i class="fab fa-twitter"></i></a>
-          </li>
-          <li class="instagram-icon">
-            <a href="https:www.instagram.com/akashchaurasiya817" target="_blank"><i class="fab fa-instagram"></i></a>
-          </li>
-          <li class="gmail-icon">
-            <a href="mailto:akashchaurasiya292@gmail.com" target="_blank"><i class="far fa-envelope"></i></a>
-          </li>
-          <li class="github-icon">
-            <a href="https://github.com/Akash-9794" target="_blank"><i class="fab fa-github"></i></a>
-          </li>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat">Dev & Cloud Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag dev">Git</span>
+          <span class="skill-tag dev">GitHub</span>
+          <span class="skill-tag dev">Hugging Face</span>
+          <span class="skill-tag dev">Bash/Shell</span>
+          <span class="skill-tag dev">VS Code</span>
+          <span class="skill-tag dev">Figma</span>
+          <span class="skill-tag dev">Google Colab</span>
+          <span class="skill-tag dev">IBM Cloud</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat">CS Fundamentals</div>
+        <div class="skill-tags">
+          <span class="skill-tag cs">DSA</span>
+          <span class="skill-tag cs">OS</span>
+          <span class="skill-tag cs">DBMS</span>
+          <span class="skill-tag cs">Computer Networks</span>
+          <span class="skill-tag cs">OOP</span>
+          <span class="skill-tag cs">SQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">02 /</span>
+      <h2 class="section-title">Selected Projects</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal">
+        <div class="project-meta">
+          <span class="project-type live">Live · ML App</span>
+          <span class="project-date">Mar 27 – Apr 2, 2026</span>
+        </div>
+        <div class="project-title">Fake News Detector</div>
+        <p class="project-desc">
+          End-to-end ML web app detecting fake news with <strong>92% accuracy</strong> on ~45,000 articles using Logistic Regression + TF-IDF vectorization. Cloud-native pipeline deployed on Streamlit Cloud.
+        </p>
+        <ul class="project-bullets">
+          <li>Cloud-native pipeline: datasets on Hugging Face, code on GitHub, auto-setup bash script for zero-touch deployment</li>
+          <li>Resolved 4 real production bugs: NaN-induced data loss, single-class training failure, missing column KeyError, and app cold-start crash</li>
         </ul>
-        <div id="latestwork" class="latest-works-link">
-          <span>Latest Projects</span>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Scikit-learn</span>
+          <span class="stack-tag">TF-IDF</span>
+          <span class="stack-tag">Streamlit</span>
+          <span class="stack-tag">Hugging Face</span>
+          <span class="stack-tag">GitHub</span>
+        </div>
+        <a href="https://fake-news-detector-akash.streamlit.app" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Demo
+        </a>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal">
+        <div class="project-meta">
+          <span class="project-type">React · REST API</span>
+          <span class="project-date">Jan – Feb 2026</span>
+        </div>
+        <div class="project-title">React Movie App</div>
+        <p class="project-desc">
+          Full-featured movie browsing web app built from scratch in 6 weeks. Global state management via Redux Toolkit, REST API integration, and fully responsive UI following industry best practices.
+        </p>
+        <ul class="project-bullets">
+          <li>Features: search, genre filters, trending feeds, and movie detail pages</li>
+          <li>Clean component architecture with Redux Toolkit global state and React Router navigation</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">ReactJS</span>
+          <span class="stack-tag">Redux Toolkit</span>
+          <span class="stack-tag">React Router</span>
+          <span class="stack-tag">Tailwind CSS</span>
+          <span class="stack-tag">REST API</span>
+        </div>
+        <a href="https://react-movie-webapp-akash-chaurasiyas-projects.vercel.app/" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Demo
+        </a>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card reveal">
+        <div class="project-meta">
+          <span class="project-type live">Live · Portfolio</span>
+          <span class="project-date">Dec 2024 – Jan 2025</span>
+        </div>
+        <div class="project-title">Personal Portfolio</div>
+        <p class="project-desc">
+          Fully responsive personal portfolio with smooth GSAP animations — custom scroll effects, hover states, and staggered reveals. Deployed on Netlify.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">HTML</span>
+          <span class="stack-tag">CSS</span>
+          <span class="stack-tag">JavaScript</span>
+          <span class="stack-tag">GSAP</span>
+        </div>
+        <a href="https://akashchaurasiya.netlify.app" target="_blank" class="project-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site
+        </a>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card reveal">
+        <div class="project-meta">
+          <span class="project-type amber" style="color:var(--amber);border-color:rgba(251,191,36,0.3);">Hardware · 2nd Prize</span>
+          <span class="project-date">2025</span>
+        </div>
+        <div class="project-title">Wireless Arduino Robot</div>
+        <p class="project-desc">
+          Led team to 2nd Prize at Robo Race 2025 (GKV). Engineered wireless RF communication and real-time motor control logic under competition pressure.
+        </p>
+        <ul class="project-bullets">
+          <li>Designed RF module communication protocol for reliable wireless control</li>
+          <li>Implemented real-time motor control with precise response under competition conditions</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">C++</span>
+          <span class="stack-tag">Arduino</span>
+          <span class="stack-tag">RF Module</span>
         </div>
       </div>
 
-      <div id="wrapper-canvas"></div>
-      <div class="overlay"></div>
-      <div class="overlay2"></div>
-    </section>
+    </div>
+  </div>
+</section>
 
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">03 /</span>
+      <h2 class="section-title">Work Experience</h2>
+      <div class="section-line"></div>
+    </div>
 
-    <section class="work-section">
-      <h2>Latest Projects</h2>
-      <div id="projects" class="project">
-        <div class="slide project project0 ">
-          <div class="project-img">
-            <div class="project-img-wrapper">
-              <a href="https://react-movie-webapp-akash-chaurasiyas-projects.vercel.app/" target="_blank">
-                <img src="./images/pic 2 project 1.png" alt="project image" draggable="false" />
-              </a>
-              <a href="https://react-movie-webapp-akash-chaurasiyas-projects.vercel.app/" target="_blank">
-              </a>
-            </div>
+    <div class="exp-list reveal">
+      <div class="exp-item">
+        <div class="exp-dot">FE</div>
+        <div>
+          <div class="exp-period">Jun 2024 – Aug 2024</div>
+          <div class="exp-role">Frontend Development Intern</div>
+          <div class="exp-company">CSRBox & IBM SkillBuild</div>
+          <div class="exp-desc">
+            Built production-ready web applications using ReactJS and Tailwind CSS in a professional Agile team with bi-weekly sprint cycles.
           </div>
-          <div class="project-details">
-            <h3>Movie App</h3>
-            <span>(React Movie App)</span>
-            <p>
-              React Movie App is a dynamic platform for exploring and discovering movies. Built from scratch using React, Tailwind CSS, and modern React concepts, it delivers a seamless user experience with features like movie details, recommendations, and platform availability.
-            </p>
-  
-            <ul>
-              <li>#react.js</li>
-              <li>#reduxToolkit</li>
-              <li>#reactRouter</li>
-              <li>#TailwindCss</li>
-              <li>#javascript</li>
-              <li>#css</li>
-              <li>#figma</li>
-            </ul>
+          <ul class="exp-bullets">
+            <li>Worked directly with IBM Cloud tools and IBM AI service APIs — gained hands-on exposure to IBM's technology ecosystem</li>
+            <li>Optimized UI component performance and accessibility metrics; delivered all assigned features on schedule</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="stack-tag">ReactJS</span>
+            <span class="stack-tag">Tailwind CSS</span>
+            <span class="stack-tag">IBM Cloud</span>
+            <span class="stack-tag">Agile</span>
           </div>
-          <a class="circle-dot" href="https://react-movie-webapp-akash-chaurasiyas-projects.vercel.app/" target="_blank"></a>
-          <div class="circle-extension"></div>
-          
         </div>
-        <div class="slide project project1 ">
-          <div class="project-img">
-            <div class="project-img-wrapper">
-              <a href="https://react-movie-webapp-akash-chaurasiyas-projects.vercel.app/" target="_blank">
-                <img src="./images/pic 2 project 1.png" alt="project image" draggable="false" />
-              </a>
-              <a href="https://react-movie-webapp-akash-chaurasiyas-projects.vercel.app/" target="_blank">
-              </a>
-            </div>
-          </div>
-          <div class="project-details">
-            <h3>Movie App</h3>
-            <span>(React Movie App)</span>
-            <p>
-              React Movie App is a dynamic platform for exploring and discovering movies. Built from scratch using React, Tailwind CSS, and modern React concepts, it delivers a seamless user experience with features like movie details, recommendations, and platform availability.
-            </p>
-  
-            <ul>
-              <li>#react.js</li>
-              <li>#reduxToolkit</li>
-              <li>#reactRouter</li>
-              <li>#TailwindCss</li>
-              <li>#javascript</li>
-              <li>#css</li>
-              <li>#figma</li>
-            </ul>
-          </div>          
-        </div>
-        
       </div>
-      
-        <div class="prev arr">
-          <img src="./images/icons8-arrow-48.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">04 /</span>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-degree">B.Tech — Computer Science & Engineering</div>
+        <div class="edu-school">Gurukul Kangri Vishwavidyalaya, Haridwar</div>
+        <div class="edu-period">2022 – 2026 (Expected)</div>
+        <div class="edu-score">CGPA: 8.4</div>
+      </div>
+
+      <div class="edu-card highlight reveal">
+        <div class="edu-icon">🏆</div>
+        <div class="edu-degree">GATE 2026 — Qualified</div>
+        <div class="edu-school">CS & Engineering</div>
+        <div class="edu-period">2026</div>
+        <div class="edu-score">Score: 408 · Rank: 10,000+</div>
+        <ul class="edu-bullets">
+          <li>Strong in DSA, Operating Systems, DBMS</li>
+          <li>Computer Networks, Discrete Mathematics</li>
+        </ul>
+      </div>
+
+      <div class="edu-card reveal">
+        <div class="edu-icon">📚</div>
+        <div class="edu-degree">Class 12th</div>
+        <div class="edu-school">UP Board</div>
+        <div class="edu-period">—</div>
+        <div class="edu-score">71%</div>
+      </div>
+
+      <div class="edu-card reveal">
+        <div class="edu-icon">📖</div>
+        <div class="edu-degree">Class 10th</div>
+        <div class="edu-school">UP Board</div>
+        <div class="edu-period">—</div>
+        <div class="edu-score">75%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section>
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">05 /</span>
+      <h2 class="section-title">Certifications & Achievements</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="cert-list reveal">
+      <div class="cert-item">
+        <div class="cert-icon">✦</div>
+        IBM SkillBuild — AI Fundamentals & Cloud Computing (2024)
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">✦</div>
+        Kaggle — Python Certification (Completed)
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">✦</div>
+        Kaggle — Intro to Machine Learning (Completed)
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.3);color:var(--amber);">🏅</div>
+        2nd Prize — Robo Race 2025, Gurukul Kangri Vishwavidyalaya
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">06 /</span>
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="contact-wrapper reveal">
+      <div class="contact-grid">
+        <div>
+          <div class="contact-heading">Let's Work<br>Together</div>
+          <p class="contact-sub">
+            Currently open for new opportunities — internships, projects, or full-time roles.<br><br>
+            Whether you have a question or just want to say hi, I'll get back to you!
+          </p>
         </div>
-        <div class="next arr">
-          <img src="./images/icons8-arrow-48.png" alt="">
+        <div class="contact-links">
+          <a href="mailto:226301014@gkv.ac.in" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>226301014@gkv.ac.in</span>
+          </a>
+          <a href="https://github.com/Akash-9794" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span>github.com/Akash-9794</span>
+          </a>
+          <a href="linkedin.com/in/akash-chaurasiya-621969259" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span>linkedin.com/akash</span>
+          </a>
+          <a href="tel:+919794829085" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 10.5a19.79 19.79 0 01-3.07-8.67A2 2 0 012.88 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <span>+91 9794829085</span>
+          </a>
+          <a href="https://akashchaurasiya.netlify.app" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <span>akashchaurasiya.netlify.app</span>
+          </a>
         </div>
-    </section>
-   
+      </div>
+    </div>
+  </div>
+</section>
 
-    
+<!-- FOOTER -->
+<footer>
+  <span>© <span id="year"></span> Akash Chaurasiya — All rights reserved</span>
+  <span>Built with HTML · CSS · JS</span>
+</footer>
 
-    
+<script>
+  // ── Year
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    
+  // ── Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
 
-    <!-- Matter JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/matter-wrap@0.2.0/build/matter-wrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/matter-attractors@0.1.6/build/matter-attractors.min.js"></script>
+  // ── Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  reveals.forEach(el => observer.observe(el));
 
-
-    <script src="./script.js"></script>
-
-  </body>
-
+  // ── Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 140) current = sec.id;
+    });
+    navAnchors.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--accent3)' : 'var(--text2)';
+    });
+  });
+</script>
+</body>
 </html>
